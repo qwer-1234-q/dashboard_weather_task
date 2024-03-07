@@ -83,7 +83,7 @@ return (
                   <p>Description of task: {task.taskDescription}</p> 
                   {task.status === '1' && <p>Completion status: "Completed"</p>}
                   {task.status === '2' && <p>Completion status: "Processing"</p>}
-                  {task.status !== '3' && <p>Completion status: "Haven't started"</p>}
+                  {task.status === '3' && <p>Completion status: "Haven't started"</p>}
                 </CardContent>
                 <Divider />
                 <div className={classes.buttonGroup}>

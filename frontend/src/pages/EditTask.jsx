@@ -94,53 +94,6 @@ const EditTask = () => {
     setTaskDescription(event.target.valuen);
   }
 
-//   const handleDeleteDescription = (id) => {
-//     const updatedTaskDescription = taskDescription.filter(Description => description.descriptionid !== id);
-//     setTaskDescription(updatedTaskDescription);
-//   }
-
-//   const generateQuestionID = () => {
-//     const existingIDs = taskDescription.map((question) => question.questionid);
-//     let id;
-//     do {
-//       id = Math.floor(Math.random() * 100000);
-//     } while (existingIDs.includes(id));
-//     return id;
-//   }
-
-//   const handleAddDescription = () => {
-//     // const dummyDescription = {
-//     //   name: '',
-//     //   options: [],
-//     //   point: 0,
-//     //   type: '1',
-//     //   url: null,
-//     //   videoURL: '0',
-//     //   timeLimit: 0,
-//     //   questionid: generateQuestionID(),
-//     // };
-//     // taskDescription.push(dummyQuestion);
-//     // console.log('add a question: ', taskDescription);
-//     // console.log('dummy question: ', dummyQuestion);
-//     // const payload = {};
-//     // payload.taskDescription = taskDescription
-//     const questionid = generateQuestionID();
-//     console.log('add a Description id is:', questionid);
-//     return navigate(`/EditTask/${taskid}/question/${questionid}`);
-//     // apiFetch('PUT', `admin/quiz/${taskid}`, payload).then(() => {
-//     //   console.log('add Description id: ', dummyQuestion.questionid);
-//     // });
-//   };
-
-  // useEffect(() => {
-  //   console.log('add a question: ', taskDescription);
-  //   apiFetch('PUT', `admin/quiz/${taskid}`, {
-  //     taskDescription,
-  //   }).then(() => {
-  //     return navigate(`/EditTask/${taskid}/question/${taskDescription[taskDescription.length - 1].questionid}`);
-  //   });
-  // }, [tmpQ])
-
   useEffect(() => {
     apiFetch('GET', `admin/task/${taskid}`)
       .then((response) => {
@@ -217,29 +170,6 @@ const EditTask = () => {
                 </ToggleButton>
             </ToggleButtonGroup>
           </div>
-
-          {/* {taskDescription && <>{taskDescription.map((question) => (
-            <div className='question' key={question.questionid}>
-              <Card className={classes.questionCard}>
-                <p className={classes.cardContent}>Question: {question.name}</p>
-                <span style={{ display: 'flex', alignItems: 'center' }}><p>Type: {(parseInt(question.type) === 1) ? 'single answer' : 'multiple answers'} | Points: {question.point} |</p><AccessAlarm style={{ marginLeft: '5px' }}/> <p>: {question.timeLimit}</p></span>
-              </Card>
-              <div className={classes.iconButtons}>
-                <IconButton onClick={() => navigate(`/EditTask/${taskid}/question/${question.questionid}`)}>
-                  <Edit/>
-                </IconButton>
-                <IconButton onClick={() => handleDeleteQuestion(question.questionid) }>
-                  <Cancel />
-                </IconButton>
-              </div>
-            </div>
-          ))}</>} */}
-          {/* <div style={{ display: 'flex', marginBottom: '24px', alignItems: 'center' }}>
-            <IconButton className={classes.iconButton} onClick={ handleAddDescription }>
-              <AddBox/>
-            </IconButton>
-            <p style={{ margin: '0px 0px 0px 5px' }}>Add a Description </p>
-          </div> */}
           <div className={classes.buttonGroup}>
             <Button variant='contained' style={{ backgroundColor: '#888' }} onClick={() => navigate('/dashboard')}>Cancel Changes</Button>
             <Button variant='contained' color='primary' onClick={ handleEdit }>Save Changes</Button>

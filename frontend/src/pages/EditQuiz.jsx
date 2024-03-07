@@ -53,7 +53,6 @@ const EditQuiz = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
-  // const [tmpQ, setTmpQ] = useState();
   const [name, setName] = useState('');
   const [thumbnail, setThumbnail] = useState('');
 
@@ -100,37 +99,10 @@ const EditQuiz = () => {
   }
 
   const handleAddQuestion = () => {
-    // const dummyQuestion = {
-    //   name: '',
-    //   options: [],
-    //   point: 0,
-    //   type: '1',
-    //   url: null,
-    //   videoURL: '0',
-    //   timeLimit: 0,
-    //   questionid: generateQuestionID(),
-    // };
-    // questions.push(dummyQuestion);
-    // console.log('add a question: ', questions);
-    // console.log('dummy question: ', dummyQuestion);
-    // const payload = {};
-    // payload.questions = questions
     const questionid = generateQuestionID();
     console.log('add a question id is:', questionid);
     return navigate(`/editQuiz/${quizid}/question/${questionid}`);
-    // apiFetch('PUT', `admin/quiz/${quizid}`, payload).then(() => {
-    //   console.log('add question id: ', dummyQuestion.questionid);
-    // });
   };
-
-  // useEffect(() => {
-  //   console.log('add a question: ', questions);
-  //   apiFetch('PUT', `admin/quiz/${quizid}`, {
-  //     questions,
-  //   }).then(() => {
-  //     return navigate(`/editQuiz/${quizid}/question/${questions[questions.length - 1].questionid}`);
-  //   });
-  // }, [tmpQ])
 
   useEffect(() => {
     apiFetch('GET', `admin/quiz/${quizid}`)

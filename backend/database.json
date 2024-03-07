@@ -11,9 +11,9 @@
   "weathers": {
     "London": {
       "city": "London",
-      "temp": 9.25,
-      "description": "haze",
-      "wind_speed": 5.14
+      "temp": 10.05,
+      "description": "broken clouds",
+      "wind_speed": 7.72
     }
   },
   "tasks": {
