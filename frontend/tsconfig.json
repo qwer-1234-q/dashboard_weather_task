@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "sourceMap": false,
+    "module": "es6",
+    "target": "ES2018",
+    "lib": ["ES2018"],
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noUnusedParameters": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "types": ["jest", "node", "cypress"]
+  },
+  "include": [
+    "./src/**/*", "../../draft_info/GameResults.jsx",
+    "../node_modules/cypress",
+  ]
+}
