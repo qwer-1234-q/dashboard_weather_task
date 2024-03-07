@@ -8,5 +8,46 @@
   },
   "quizzes": {},
   "sessions": {},
-  "weathers": {}
+  "weathers": {
+    "London": {
+      "city": "London",
+      "temp": 9.25,
+      "description": "haze",
+      "wind_speed": 5.14
+    }
+  },
+  "tasks": {
+    "118717607": {
+      "name": "I DONT KNOW",
+      "owner": "bbgg@bbgg.com",
+      "taskDescription": null,
+      "thumbnail": null,
+      "active": null,
+      "createdAt": "2024-03-07T11:17:00.314Z"
+    },
+    "267760355": {
+      "name": "I DONT KNOW",
+      "owner": "bbgg@bbgg.com",
+      "taskDescription": null,
+      "thumbnail": null,
+      "active": null,
+      "createdAt": "2024-03-07T11:10:41.972Z"
+    },
+    "516556633": {
+      "name": "I DONT KNOW",
+      "owner": "bbgg@bbgg.com",
+      "taskDescription": null,
+      "thumbnail": null,
+      "active": null,
+      "createdAt": "2024-03-07T11:15:39.181Z"
+    },
+    "604377838": {
+      "name": "I DONT KNOW",
+      "owner": "bbgg@bbgg.com",
+      "taskDescription": null,
+      "thumbnail": null,
+      "active": null,
+      "createdAt": "2024-03-07T11:14:54.628Z"
+    }
+  }
 }

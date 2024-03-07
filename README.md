@@ -1,21 +1,48 @@
 ﻿# dashboard_weather_task
+
 # 1 Overview
 
 This is a Personal Dashboard application including weather, news, and a simple task manager.
 
 # 2 Core Features
 
-## 2.1 Weather Widget
+## 2.1 User Login
+
+The user has to login their account so that can access the weather widget, news feed and task manager.
+
+## 2.2 User register
+
+The user has to register an account if the user didn't create an account.
+
+The email has to be valid including @.
+
+The name should the length of name should be between 3 and 50 char.
+
+The password should 
+
+1. contain at least one Uppercase letter(A to Z)
+
+2. contain at lesat one lowercase letter(a to z)
+
+3. contain at least one number
+
+4. the length should be between 8 to 20 characters
+
+5. the name cannot contain space
+
+## 2.3 Weather Widget
 
 Display current weather information for the user's location or a specified location. Integrate a public weather API like OpenWeatherMap to fetch weather data.
 
-## 2.2 News Feed
+## 2.4 News Feed
 
 Implement a news feed widget that pulls in top headlines from a public news API like the NewsAPI. Allow users to filter news by category (e.g., Technology, Business, Sports).
 
-## 2.3 Task Manager
+## 2.5 Task Manager
 
 Develop a simple task manager where users can add, delete, and mark tasks as completed. Store tasks locally in the browser's localStorage or use a backend service if you're comfortable setting one up.
+
+The user can upload any images if the user demand.
 
 # 3 Set up and run the project
 

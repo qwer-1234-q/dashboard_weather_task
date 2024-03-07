@@ -12,6 +12,12 @@ import {
   logout,
   register,
   save,
+  getTasksFromAdmin,
+  addTask,
+  getTask,
+  assertOwnsTask,
+  updateTask,
+  removeTask,
   getQuizzesFromAdmin,
   addQuiz,
   startQuiz,
@@ -31,6 +37,7 @@ import {
   getAnswers,
   hasStarted,
   fetchLocationInfo,
+  searchWeather,
   getWeather,
 } from './service';
 
@@ -90,14 +97,57 @@ app.get('/weather/ip', catchErrors(async (req, res) => {
   return res.json(fetchLocationInfo());
 }));
 
-app.get('/weather/:city', catchErrors(async (req, res) => {
+app.post('/weather/:city', catchErrors(async (req, res) => {
   const { city, } = req.params;
-
-  const response = res.json(await getWeather(city));
-  console.log("get weather: ");
-  console.log(response);
-  return response;
+  // await searchWeather(city);
+  // console.log("server: get weather ---- ");
+  // const response = res.json(await getWeather(city));
+  // const response = res.json(await searchWeather(city));
+  // console.log(response);
+  // // return res.json(response);
+  // return response;
+  return res.json(await searchWeather(city))
 }));
+// app.post('/weather/:city', catchErrors(async (req, res, city) => {
+//   const { city, } = req.params;
+//   const response = res.json(await getWeather(city));
+//   console.log("get weather: ");
+//   console.log(response);
+//   return response;
+// }));
+
+/***************************************************************
+                       Task Functions
+***************************************************************/
+
+app.get('/admin/task', catchErrors(authed(async (req, res, email) => {
+  return res.json({ tasks: await getTasksFromAdmin(email), });
+})));
+
+app.post('/admin/task/new', catchErrors(authed(async (req, res, email) => {
+  return res.json({ taskId: await addTask(req.body.name, email), });
+})));
+
+app.get('/admin/task/:taskid', catchErrors(authed(async (req, res, email) => {
+  const { taskid, } = req.params;
+  await assertOwnsTask(email, taskid);
+  return res.json(await getTask(taskid));
+})));
+
+app.put('/admin/task/:taskid', catchErrors(authed(async (req, res, email) => {
+  const { taskid, } = req.params;
+  const { taskDescription, name, thumbnail, status } = req.body;
+  await assertOwnstask(email, taskid);
+  await updateTask(taskid, taskDescription, name, thumbnail, status);
+  return res.status(200).send({});
+})));
+
+app.delete('/admin/task/:taskid', catchErrors(authed(async (req, res, email) => {
+  const { taskid, } = req.params;
+  await assertOwnsTask(email, taskid);
+  await removeTask(taskid);
+  return res.status(200).send({});
+})));
 
 /***************************************************************
                        Quiz Functions

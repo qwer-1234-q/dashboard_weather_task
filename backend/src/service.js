@@ -23,10 +23,11 @@ let admins = {};
 let quizzes = {};
 let sessions = {};
 let weathers = {};
+let tasks = {};
 
 const sessionTimeouts = {};
 
-const update = (admins, quizzes, sessions, weathers) =>
+const update = (admins, quizzes, sessions, weathers, tasks) =>
   new Promise((resolve, reject) => {
     lock.acquire('saveData', () => {
       try {
@@ -35,6 +36,7 @@ const update = (admins, quizzes, sessions, weathers) =>
           quizzes,
           sessions,
           weathers,
+          tasks,
         }, null, 2));
         resolve();
       } catch {
@@ -43,13 +45,14 @@ const update = (admins, quizzes, sessions, weathers) =>
     });
   });
 
-export const save = () => update(admins, quizzes, sessions, weathers);
+export const save = () => update(admins, quizzes, sessions, weathers, tasks);
 export const reset = () => {
   update({}, {}, {}, {});
   admins = {};
   quizzes = {};
   sessions = {};
   weathers = {};
+  tasks = {};
 };
 
 try {
@@ -58,6 +61,7 @@ try {
   quizzes = data.quizzes;
   sessions = data.sessions;
   weathers = data.weathers;
+  tasks = data.tasks;
 } catch {
   console.log('WARNING: No database found, create a new one');
   save();
@@ -69,8 +73,8 @@ try {
 
 const newSessionId = _ => generateId(Object.keys(sessions), 999999);
 const newQuizId = _ => generateId(Object.keys(quizzes));
+const newTaskId = _ => generateId(Object.keys(tasks));
 const newPlayerId = _ => generateId(Object.keys(sessions).map(s => Object.keys(sessions[s].players)));
-const newWeatherID = _ => generateId(Object.keys(weathers));
 
 export const userLock = callback => new Promise((resolve, reject) => {
   lock.acquire('userAuthLock', callback(resolve, reject));
@@ -78,6 +82,10 @@ export const userLock = callback => new Promise((resolve, reject) => {
 
 export const quizLock = callback => new Promise((resolve, reject) => {
   lock.acquire('quizMutateLock', callback(resolve, reject));
+});
+
+export const taskLock = callback => new Promise((resolve, reject) => {
+  lock.acquire('taskMutateLock', callback(resolve, reject));
 });
 
 export const sessionLock = callback => new Promise((resolve, reject) => {
@@ -141,6 +149,70 @@ export const register = (email, password, name) => userLock((resolve, reject) =>
   };
   const token = jwt.sign({ email, }, JWT_SECRET, { algorithm: 'HS256', });
   resolve(token);
+});
+
+/***************************************************************
+                       Task Functions
+***************************************************************/
+
+const newTaskPayload = (name, owner) => ({
+  name,
+  owner,
+  taskDescription: null,
+  thumbnail: null,
+  status: '3',
+  active: null,
+  createdAt: new Date().toISOString(),
+});
+
+export const assertOwnsTask = (email, taskId) => taskLock((resolve, reject) => {
+  if (!(taskId in tasks)) {
+    return reject(new InputError('Invalid Task ID'));
+  } else if (tasks[taskId].owner !== email) {
+    return reject(new InputError('Admin does not own this Task'));
+  } else {
+    resolve();
+  }
+});
+
+export const getTasksFromAdmin = email => taskLock((resolve, reject) => {
+  resolve(Object.keys(tasks).filter(key => tasks[key].owner === email).map(key => ({
+    id: parseInt(key, 10),
+    createdAt: tasks[key].createdAt,
+    name: tasks[key].name,
+    thumbnail: tasks[key].thumbnail,
+    status: tasks[key].status,
+    owner: tasks[key].owner,
+  })));
+});
+
+export const addTask = (name, email) => taskLock((resolve, reject) => {
+  if (name === undefined) {
+    return reject(new InputError('Must provide a name for new task'));
+  } else {
+    const newId = newTaskId();
+    tasks[newId] = newTaskPayload(name, email);
+    resolve(newId);
+  }
+});
+
+export const getTask = taskId => taskLock((resolve, reject) => {
+  resolve({
+    ...tasks[taskId],
+  });
+});
+
+export const updateTask = (taskId, taskDescription, name, thumbnail, status) => taskLock((resolve, reject) => {
+  if (taskDescription) { taskzes[taskId].taskDescription = taskDescription; }
+  if (name) { tasks[taskId].name = name; }
+  if (thumbnail) { taskzes[taskId].thumbnail = thumbnail; }
+  if (status) { taskzes[taskId].status = status; }
+  resolve();
+});
+
+export const removeTask = taskId => taskLock((resolve, reject) => {
+  delete tasks[taskId];
+  resolve();
 });
 
 /***************************************************************
@@ -535,69 +607,72 @@ export const fetchLocationInfo = () => {
   return result;
 };
 
-const newWeather = (city, temp, description, wind_speed) => ({
-  city,
-  temp,
-  description,
-  wind_speed,
-});
-
-export const getWeather = (city) => weatherLock((resolve, reject) => {
+export const searchWeather = (city) => weatherLock((resolve, reject) => {
   try {
     const api_key_weather = "66cf839c72a9a6826f72c624c510d53f";
     const weather_url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key_weather}&units=metric`;
-    axios.get(weather_url)
+    const result = {
+      "city": city,
+      "temp": '',
+      "description": '',
+      "wind_speed": '',
+    }
+    const response = axios.get(weather_url)
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         console.log(`${city}'s current weather:`);
         console.log(`temperature: ${response.data.main.temp}°C`);
         console.log(`description: ${response.data.weather[0].description}`);
         console.log(`wind speed: ${response.data.wind.speed}m/s`);
-        const result = {
-          "city": city,
-          "temp": response.data.main.temp,
-          "description": response.data.weather[0].description,
-          "wind_speed": response.data.wind.speed,
+        // const result = {
+        //   "city": city,
+        //   "temp": response.data.main.temp,
+        //   "description": response.data.weather[0].description,
+        //   "wind_speed": response.data.wind.speed,
+        // }
+        result['temp'] = response.data.main.temp;
+        result['description'] = response.data.weather[0].description;
+        result['wind_speed'] = response.data.wind.speed;
+        if (city in weathers) {
+          weathers[city].temp = response.data.main.temp;
+          weathers[city].description = response.data.weather[0].description;
+          weathers[city].wind_speed = response.data.wind.speed;
+          // resolve(city);
+          // resolve(result);
+          // resolve(weathers);
+        } else {
+          weathers[city] = result;
+          // resolve(city);
+          // resolve(result);
+          // resolve(weathers);
         }
-        weathers[city] = result;
-        console.log("\nupdate weathers");
-        console.log(weathers)
+        // return result;
         resolve(result);
-        // weathers[city] = newWeather(city, response.data.main.temp, response.data.weather[0].description, response.data.wind.speed);
-        // resolve(city);
-        // resolve(result);
-        // return resolve(result);
+        console.log("\n1 update weathers");
+        console.log(weathers);
       })
       .catch(error => {
         console.error(error);
         reject(new AccessError('Error: error fetching weather data'));
-        // throw new AccessError('Error: error fetching weather data');
       });;
-    // const response = axios.get(weather_url);
-    // const data = response.data;
-
-    // console.log(`${city}'s current weather:`);
-    // console.log(data);
-    // console.log(`temperature: ${data.main.temp}°C`);
-    // console.log(`description: ${data.weather[0].description}`);
-    // console.log(`wind speed: ${data.wind.speed}m/s`);
-    // const result = {
-    //   "city": city,
-    //   "temp": data.main.temp,
-    //   "description": data.weather[0].description,
-    //   "wind_speed": data.wind.speed,
-    // }
-    // weathers[city] = result;
-    // resolve(result);
-    // return {
-    //   "city": city,
-    //   "temp": data.main.temp,
-    //   "description": data.weather[0].description,
-    //   "wind_speed": data.wind.speed,
-    // }
+      console.log("\n2 update weathers");
+      console.log(weathers);
+      console.log("result:", result)
+      // console.log(response);
+      // resolve();  
   } catch (error) {
     // console.error('error: get the weather error: ', error);
-    reject(new InputError('error: cannot get the weather'));
+    reject(new InputError('Error: cannot get the weather'));
   }
-  return null;
+  // return null;
 });
+
+
+export const getWeather = (city) => {
+  if (city in weathers) {
+    console.log("to find the data in the database", city);
+    return weathers[city];
+  }
+  // throw new AccessError("Cannot find this city");
+  return null;
+}
