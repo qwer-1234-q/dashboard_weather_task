@@ -1,0 +1,12 @@
+{
+  "admins": {
+    "bbgg@bbgg.com": {
+      "name": "bbgg@bbgg.com",
+      "password": "Bbgg1122!",
+      "sessionActive": true
+    }
+  },
+  "quizzes": {},
+  "sessions": {},
+  "weathers": {}
+}
