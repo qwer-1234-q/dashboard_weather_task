@@ -7,7 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { React, useEffect, useState } from 'react'
 import { apiFetch, getToken, toastError } from '../helpers';
 import TaskList from '../components/TaskList';
-// import QuizList from '../components/QuizList';
+import QuizList from '../components/QuizList';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -26,24 +26,24 @@ const getTaskID = (taskid) => {
   })
 }
 
-// const getQuizQuestions = (quizid) => {
-//   return new Promise((resolve) => {
-//     apiFetch('GET', `admin/quiz/${quizid}`)
-//       .then((response) => {
-//         resolve(response.questions)
-//       })
-//   })
-// }
+const getQuizQuestions = (quizid) => {
+  return new Promise((resolve) => {
+    apiFetch('GET', `admin/quiz/${quizid}`)
+      .then((response) => {
+        resolve(response.questions)
+      })
+  })
+}
 
-// const getQuizDuration = (questions) => {
-//   let duration = 0;
-//   for (const question of questions) {
-//     if (question.timeLimit) {
-//       duration += parseInt(question.timeLimit)
-//     }
-//   }
-//   return duration
-// }
+const getQuizDuration = (questions) => {
+  let duration = 0;
+  for (const question of questions) {
+    if (question.timeLimit) {
+      duration += parseInt(question.timeLimit)
+    }
+  }
+  return duration
+}
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -51,7 +51,7 @@ const Dashboard = () => {
   const [currentTemperature, setCurrentTemperature] = useState('');
   const [currentDescription, setCurrentDescription] = useState('');
   const [tasks, setTasks] = useState([])
-  // const [quizzes, setQuizzes] = useState([])
+  const [quizzes, setQuizzes] = useState([])
   const [open, setOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
@@ -84,7 +84,7 @@ const Dashboard = () => {
       })
   }
 
-  const handleAdd = (event) => {
+  const handleAddTask = (event) => {
     event.preventDefault()
     const name = event.target[0].value
     if (name !== undefined && name.length >= 1) {
@@ -111,7 +111,6 @@ const Dashboard = () => {
             const tempTask = { ...task }
             console.log("task detail:", taskDetail);
             console.log("task tmp:", tempTask);
-            // tempTask.taskDescription = taskDetail.taskDescription
             return tempTask
           })
         ).then((updatedTasks) => {
@@ -120,40 +119,40 @@ const Dashboard = () => {
       })
   }, [refresh])
 
-  // const handleAdd = (event) => {
-  //   event.preventDefault()
-  //   const name = event.target[0].value
-  //   if (name !== undefined && name.length >= 1) {
-  //     apiFetch('POST', 'admin/quiz/new', { name })
-  //       .then((response) => {
-  //         if (response) {
-  //           refreshPage()
-  //           setOpen(false)
-  //         }
-  //       })
-  //   } else {
-  //     toastError('Please input a valid name')
-  //   }
-  // }
+  const handleAddQuiz = (event) => {
+    event.preventDefault()
+    const name = event.target[0].value
+    if (name !== undefined && name.length >= 1) {
+      apiFetch('POST', 'admin/quiz/new', { name })
+        .then((response) => {
+          if (response) {
+            refreshPage()
+            setOpen(false)
+          }
+        })
+    } else {
+      toastError('Please input a valid name')
+    }
+  }
 
-  // useEffect(() => {
-  //   console.log(getToken())
-  //   apiFetch('GET', 'admin/quiz')
-  //     .then((response) => {
-  //       const quizs = JSON.parse(JSON.stringify(response.quizzes))
-  //       Promise.all(
-  //         quizs.map(async (quiz) => {
-  //           const questions = await getQuizQuestions(quiz.id)
-  //           const tempQuiz = { ...quiz }
-  //           tempQuiz.numQuestions = questions.length
-  //           tempQuiz.totalTime = getQuizDuration(questions)
-  //           return tempQuiz
-  //         })
-  //       ).then((updatedQuizzes) => {
-  //         setQuizzes(updatedQuizzes)
-  //       });
-  //     })
-  // }, [refresh])
+  useEffect(() => {
+    console.log(getToken())
+    apiFetch('GET', 'admin/quiz')
+      .then((response) => {
+        const quizs = JSON.parse(JSON.stringify(response.quizzes))
+        Promise.all(
+          quizs.map(async (quiz) => {
+            const questions = await getQuizQuestions(quiz.id)
+            const tempQuiz = { ...quiz }
+            tempQuiz.numQuestions = questions.length
+            tempQuiz.totalTime = getQuizDuration(questions)
+            return tempQuiz
+          })
+        ).then((updatedQuizzes) => {
+          setQuizzes(updatedQuizzes)
+        });
+      })
+  }, [refresh])
 
   return (
     <div className={classes.page}>
@@ -192,7 +191,7 @@ const Dashboard = () => {
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Give it a Name</DialogTitle>
-        <form noValidate onSubmit={handleAdd}>
+        <form noValidate onSubmit={handleAddTask}>
           <DialogContent>
             <DialogContentText>
               This will be the title name of the Task
@@ -214,7 +213,33 @@ const Dashboard = () => {
         </form>
       </Dialog>
       <TaskList tasks ={ tasks } refresh={ refreshPage }/>
-      {/* <QuizList quizzes={ quizzes } refresh={ refreshPage }/> */}
+      <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
+        Add a Quiz
+      </Button>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Give it a Name</DialogTitle>
+        <form noValidate onSubmit={handleAddQuiz}>
+          <DialogContent>
+            <DialogContentText>
+              This will be the title name of the Quiz
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Name"
+              type="name"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={ () => setOpen(false) }>Cancel</Button>
+            <Button type="submit">Add Quiz</Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+      <QuizList quizzes={ quizzes } refresh={ refreshPage }/>
     </div>
   );
 };

@@ -8,7 +8,7 @@ This is a Personal Dashboard application including weather, news, and a simple t
 
 ## 2.1 User Login
 
-The user has to login their account so that can access the weather widget, news feed and task manager.
+The user has to login their account so that can access the task manager.
 
 ## 2.2 User register
 
@@ -18,31 +18,41 @@ The email has to be valid including @.
 
 The name should the length of name should be between 3 and 50 char.
 
-The password should 
+The password should
 
 1. contain at least one Uppercase letter(A to Z)
-
 2. contain at lesat one lowercase letter(a to z)
-
 3. contain at least one number
-
 4. the length should be between 8 to 20 characters
-
 5. the name cannot contain space
 
 ## 2.3 Weather Widget
 
 Display current weather information for the user's location or a specified location. Integrate a public weather API like OpenWeatherMap to fetch weather data.
 
+The user can click "change to current city" if the user accpets to get their current location from their ip and the system will provide the weather of the current location.
+
+Otherwise, the user also can input a name of city and the system will search the weather of this city.
+
+The user can access without register an account.
+
 ## 2.4 News Feed
 
 Implement a news feed widget that pulls in top headlines from a public news API like the NewsAPI. Allow users to filter news by category (e.g., Technology, Business, Sports).
+
+The user can access without register an account.
 
 ## 2.5 Task Manager
 
 Develop a simple task manager where users can add, delete, and mark tasks as completed. Store tasks locally in the browser's localStorage or use a backend service if you're comfortable setting one up.
 
 The user can upload any images if the user demand.
+
+The user has to register an account if the user want to access this feature.
+
+## 2.6 Quiz
+
+The user can create mutiple quizzes. Other players can play the games without login an account.
 
 # 3 Set up and run the project
 

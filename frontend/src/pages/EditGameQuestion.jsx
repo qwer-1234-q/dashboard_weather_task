@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable react/jsx-no-comment-textnodes */
 import {
   Typography, Button, Grid, Radio, Container, TextField,
   FormControl, FormLabel, RadioGroup, FormControlLabel, MenuItem, Menu
@@ -299,12 +301,15 @@ const EditGameQuestion = () => {
                 name='qusetion-name'
                 type='text'
                 value={name}
+                // eslint-disable-next-line no-restricted-globals
                 onChange={() => setName(event.target.value)}
               />
             </Grid>
             <Grid item className={classes.grid}>
               <FormControl component={'fieldset'}>
+                // eslint-disable-next-line react/jsx-no-comment-textnodes
                 <FormLabel component={'legend'}>Question type</FormLabel>
+                // eslint-disable-next-line no-restricted-globals
                 <RadioGroup aria-label='question type' name='questionType' value={type} onChange={() => setType(event.target.value)}>
                   <FormControlLabel value={optionsNumber[1].value} control={<Radio />} label='Single choice (only one correct)'/>
                   <FormControlLabel value={optionsNumber[2].value} control={<Radio />} label='Mutiple choice (more than two correct)'/>
@@ -319,6 +324,7 @@ const EditGameQuestion = () => {
                 name='question-point'
                 type='int'
                 value={point}
+                // eslint-disable-next-line no-restricted-globals
                 onChange={() => setPoint(event.target.value)}
               />
             </Grid>
@@ -332,6 +338,7 @@ const EditGameQuestion = () => {
                 max={10000}
                 step={1}
                 type='number'
+                // eslint-disable-next-line no-restricted-globals
                 onChange={() => setTimeLimit(event.target.value)}
                 className={classes.timeInput}
                 InputLabelProps={{
@@ -342,6 +349,7 @@ const EditGameQuestion = () => {
             <Grid item className={classes.grid}>
               <FormControl component={'fieldset'}>
                 <FormLabel component={'legend'}>Upload an image or attach a Video URL (Youtube) </FormLabel>
+                // eslint-disable-next-line no-restricted-globals, no-restricted-globals, no-restricted-globals
                 <RadioGroup aria-label='video or URL' name='videoOrURL' value={videoURL} onChange={() => setVideoURL(event.target.value)}>
                   <FormControlLabel value={optionsNumber[0].value} control={<Radio />} label='Nothing'/>
                   <FormControlLabel value={optionsNumber[1].value} control={<Radio />} label='Upload an image (file, PNG or JPG)'/>
@@ -414,10 +422,12 @@ const EditGameQuestion = () => {
                 name='option1'
                 type='text'
                 value={optionName1}
+                // eslint-disable-next-line no-restricted-globals
                 onChange={() => setOptionName1(event.target.value)}
               />
               <FormControl component={'fieldset'}>
                 <FormLabel component={'legend'}>Option correct/incorrect</FormLabel>
+                // eslint-disable-next-line no-restricted-globals
                 <RadioGroup aria-label='Option true/false 1' name='optionCorrect1' value={optionCorrect1} onChange={() => setOptionCorrect1(event.target.value)}>
                   <FormControlLabel value='true' control={<Radio />} label='True / Correct answer'/>
                   <FormControlLabel value='false' control={<Radio />} label='False / Incorrect answer'/>
@@ -452,10 +462,12 @@ const EditGameQuestion = () => {
                   name='option3'
                   type='text'
                   value={optionName3}
+                  // eslint-disable-next-line no-restricted-globals
                   onChange={() => setOptionName3(event.target.value)}
                 />
                 <FormControl component={'fieldset'}>
                   <FormLabel component={'legend'}>Option 3 correct/incorrect</FormLabel>
+                  // eslint-disable-next-line no-restricted-globals
                   <RadioGroup aria-label='Option true/false 3' name='optionCorrect3' value={optionCorrect3} onChange={() => setOptionCorrect3(event.target.value)}>
                     <FormControlLabel value='true' control={<Radio />} label='True / Correct answer'/>
                     <FormControlLabel value='false' control={<Radio />} label='False / Incorrect answer'/>

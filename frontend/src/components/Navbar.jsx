@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles';
 import {
   Rowing, Menu, ChevronLeft, ChevronRight, SportsEsports, ExitToApp,
-  Dashboard, AccountBox
+  Dashboard, AccountBox, Newspaper, Thermostat 
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch, getToken, removeToken } from '../helpers';
@@ -156,6 +156,14 @@ const Navbar = (props) => {
           <ListItem button onClick={() => navigate('/game/null')}>
             <ListItemIcon> <SportsEsports /></ListItemIcon>
             <ListItemText primary='Join a Quiz Session' />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/weather')}>
+            <ListItemIcon> <Thermostat /></ListItemIcon>
+            <ListItemText primary='Weather' />
+          </ListItem>
+          <ListItem button onClick={() => navigate('/news')}>
+            <ListItemIcon> <Newspaper /></ListItemIcon>
+            <ListItemText primary='News' />
           </ListItem>
           {!token && <ListItem button onClick={() => navigate('/login')}>
             <ListItemIcon> <ExitToApp /></ListItemIcon>

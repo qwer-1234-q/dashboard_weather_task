@@ -2,13 +2,15 @@ import { React, useState } from 'react';
 import './App.css';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import Login from './pages/Login';
-// import EditQuiz from './pages/EditQuiz';
-// import EditGameQuestion from './pages/EditGameQuestion';
+import EditQuiz from './pages/EditQuiz';
+import EditGameQuestion from './pages/EditGameQuestion';
 import SignupPage from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import EditTask from './pages/EditTask';
-// import Game from './pages/Game';
-// import AdminGame from './pages/AdminGame';
+import NewsFeed from './pages/NewsFeed';
+import Weather from './pages/Weather';
+import Game from './pages/Game';
+import AdminGame from './pages/AdminGame';
 import ProtectedRoute from './ProtectedRoute'
 import { AuthProvider } from './AuthContext';
 import { ToastContainer } from 'react-toastify';
@@ -43,14 +45,18 @@ function App () {
             element={
               <Navbar>{ <SignupPage setAuth={setAuth} /> }</Navbar>
             }/>
-          {/* <Route path='/game/:sessionid'
+          <Route path='/game/:sessionid'
             element={
               <Navbar>{ <Game /> }</Navbar>
             }/>
           <Route path='/adminGame/:quizid/:sessionid'
             element={
               <Navbar>{ <AdminGame /> }</Navbar>
-            }/> */}
+            }/>
+          <Route path='/weather'
+            element={
+              <Navbar>{ <Weather /> }</Navbar>
+            }/>
           <Route path='/dashboard'
             element={
               <Navbar>{ <ProtectedRoute Component={Dashboard}/> }</Navbar>
@@ -60,8 +66,13 @@ function App () {
             element={
               <Navbar><ProtectedRoute Component={EditTask}/></Navbar>
             }
-          /> */
-          {/* <Route path='/editQuiz/:quizid'
+          /> 
+          <Route path='/news'
+            element={
+              <Navbar><ProtectedRoute Component={NewsFeed}/></Navbar>
+            }
+          /> 
+          <Route path='/editQuiz/:quizid'
             element={
               <Navbar>{ <ProtectedRoute Component={EditQuiz}/> }</Navbar>
             }
@@ -70,7 +81,7 @@ function App () {
             element={
               <Navbar><ProtectedRoute Component={EditGameQuestion}/></Navbar>
             }
-          /> */}
+          />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

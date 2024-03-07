@@ -650,6 +650,7 @@ export const searchWeather = (city) => weatherLock((resolve, reject) => {
         resolve(result);
         console.log("\n1 update weathers");
         console.log(weathers);
+        resolve();
       })
       .catch(error => {
         console.error(error);
@@ -659,7 +660,7 @@ export const searchWeather = (city) => weatherLock((resolve, reject) => {
       console.log(weathers);
       console.log("result:", result)
       // console.log(response);
-      // resolve();  
+      resolve();  
   } catch (error) {
     // console.error('error: get the weather error: ', error);
     reject(new InputError('Error: cannot get the weather'));
