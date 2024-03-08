@@ -1,11 +1,9 @@
 import fs from 'fs';
 import express from 'express';
-import swaggerUi from 'swagger-ui-express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import { InputError, AccessError, } from './error';
-import swaggerDocument from '../swagger.json';
 import {
   getEmailFromAuthorization,
   login,
@@ -257,9 +255,9 @@ app.get('/play/:playerid/results', catchErrors(async (req, res) => {
                        Running Server
 ***************************************************************/
 
-app.get('/', (req, res) => res.redirect('/docs'));
+// app.get('/', (req, res) => res.redirect('/docs'));
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const configData = JSON.parse(fs.readFileSync('../frontend/src/config.json'));
 const port = 'BACKEND_PORT' in configData ? configData.BACKEND_PORT : 5000;

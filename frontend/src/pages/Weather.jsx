@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 const api_key_weather = "66cf839c72a9a6826f72c624c510d53f";
 
 // api key for ipinfo
-const api_key_ipinfo = "bc48a998282274";
+// const api_key_ipinfo = "bc48a998282274";
 
 const Weather = () => {
   const classes = useStyles();
