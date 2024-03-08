@@ -1,7 +1,7 @@
 import {
   Button, TextField, Dialog, DialogActions, DialogContent,
   DialogContentText, DialogTitle, Grid, Container, Typography,
-  CardContent
+  CardContent, Divider
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { React, useEffect, useState } from 'react'
@@ -156,36 +156,11 @@ const Dashboard = () => {
 
   return (
     <div className={classes.page}>
-      <Container fixed maxWidth='md' className={classes.container}>
-        {/* <Typography className={classes.text} component='h1' variant='h5'> Weather </Typography>
-        <form noValidate onSubmit={getCurrentCityWeather}>
-          <Grid container style={{ marginTop: '24px' }} alignItems='center' direction='column'>
-            <Grid item className={classes.grid}>
-              <TextField
-                variant='outlined'
-                id='city'
-                label='Input a city'
-                name='city'
-                type='text'
-              />
-            </Grid>
-            <CardContent className={classes.content}>
-              <p>City:        {currentCity}</p>
-            </CardContent>
-            <CardContent className={classes.content}>
-              <p>Temperature:  {currentTemperature}</p>
-            </CardContent>
-            <CardContent className={classes.content}>
-              <p>Description:  {currentDescription}</p>
-            </CardContent>
-          </Grid>
-          <Grid container alignContent='flex-end' direction='column'>
-          <Grid item className={ classes.grid }>
-            <Button type='submit' variant='contained' color='primary'>Change City</Button>
-          </Grid>
-        </Grid>
-        </form> */}
-      </Container>
+      <Divider
+       flexItem
+      >
+      <Typography className={classes.text} component='h1' variant='h5'> Your personal task management </Typography>
+      </Divider>
       <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
         Add a Task
       </Button>
@@ -213,6 +188,11 @@ const Dashboard = () => {
         </form>
       </Dialog>
       <TaskList tasks ={ tasks } refresh={ refreshPage }/>
+      <Divider
+        flexItem
+      >
+      <Typography className={classes.text} component='h1' variant='h5'> Create a quiz and make fun with your friends </Typography>
+      </Divider>
       <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
         Add a Quiz
       </Button>
