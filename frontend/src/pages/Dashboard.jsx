@@ -47,9 +47,9 @@ const getQuizDuration = (questions) => {
 
 const Dashboard = () => {
   const classes = useStyles();
-  const [currentCity, setCurrentCity] = useState('Sydney');
-  const [currentTemperature, setCurrentTemperature] = useState('');
-  const [currentDescription, setCurrentDescription] = useState('');
+  // const [currentCity, setCurrentCity] = useState('Sydney');
+  // const [currentTemperature, setCurrentTemperature] = useState('');
+  // const [currentDescription, setCurrentDescription] = useState('');
   const [tasks, setTasks] = useState([])
   const [quizzes, setQuizzes] = useState([])
   const [open, setOpen] = useState(false);
@@ -59,30 +59,30 @@ const Dashboard = () => {
     setRefresh(!refresh)
   }
 
-  function getCurrentCityWeather (event) {
-    event.preventDefault();
+  // function getCurrentCityWeather (event) {
+  //   event.preventDefault();
 
-    const city = event.target[0].value;
-    console.log('input a city:', city);
-    // validating it is not empty field
-    if (!city) {
-      return toastError('please input the city')
-    }
+  //   const city = event.target[0].value;
+  //   console.log('input a city:', city);
+  //   // validating it is not empty field
+  //   if (!city) {
+  //     return toastError('please input the city')
+  //   }
 
-    apiFetch('POST', `weather/${city}`)
-      .then((response) => {
-        console.log('current weather information: ', response);
-        if (response) {
-          setCurrentCity(response.city);
-          setCurrentTemperature(response.temp);
-          setCurrentDescription(response.description);
-          refreshPage();
-        }
-      })
-      .catch((error) => {
-        toastError('We cannot find this city');
-      })
-  }
+  //   apiFetch('POST', `weather/${city}`)
+  //     .then((response) => {
+  //       console.log('current weather information: ', response);
+  //       if (response) {
+  //         setCurrentCity(response.city);
+  //         setCurrentTemperature(response.temp);
+  //         setCurrentDescription(response.description);
+  //         refreshPage();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       toastError('We cannot find this city');
+  //     })
+  // }
 
   const handleAddTask = (event) => {
     event.preventDefault()
@@ -157,7 +157,7 @@ const Dashboard = () => {
   return (
     <div className={classes.page}>
       <Container fixed maxWidth='md' className={classes.container}>
-        <Typography className={classes.text} component='h1' variant='h5'> Weather </Typography>
+        {/* <Typography className={classes.text} component='h1' variant='h5'> Weather </Typography>
         <form noValidate onSubmit={getCurrentCityWeather}>
           <Grid container style={{ marginTop: '24px' }} alignItems='center' direction='column'>
             <Grid item className={classes.grid}>
@@ -184,7 +184,7 @@ const Dashboard = () => {
             <Button type='submit' variant='contained' color='primary'>Change City</Button>
           </Grid>
         </Grid>
-        </form>
+        </form> */}
       </Container>
       <Button variant="contained" color="secondary" onClick={() => setOpen(true)}>
         Add a Task

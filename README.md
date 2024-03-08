@@ -54,6 +54,10 @@ The user has to register an account if the user want to access this feature.
 
 The user can create mutiple quizzes. Other players can play the games without login an account.
 
+## 2.7 Slide bar
+
+The user can click the slide bar to any page.
+
 # 3 Set up and run the project
 
 ## 3.1 The Frontend

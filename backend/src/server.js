@@ -97,22 +97,8 @@ app.get('/weather/ip', catchErrors(async (req, res) => {
 
 app.post('/weather/:city', catchErrors(async (req, res) => {
   const { city, } = req.params;
-  // await searchWeather(city);
-  // console.log("server: get weather ---- ");
-  // const response = res.json(await getWeather(city));
-  // const response = res.json(await searchWeather(city));
-  // console.log(response);
-  // // return res.json(response);
-  // return response;
   return res.json(await searchWeather(city))
 }));
-// app.post('/weather/:city', catchErrors(async (req, res, city) => {
-//   const { city, } = req.params;
-//   const response = res.json(await getWeather(city));
-//   console.log("get weather: ");
-//   console.log(response);
-//   return response;
-// }));
 
 /***************************************************************
                        Task Functions

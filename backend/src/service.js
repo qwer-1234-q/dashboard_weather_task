@@ -494,19 +494,7 @@ export const getResults = playerId => sessionLock((resolve, reject) => {
                        Weather Functions
 ***************************************************************/
 
-// const axios = require('axios');
 import axios from 'axios';
-
-// async function getPublicIP() {
-//   try {
-//      // Get the public IP from ipify
-//     const response = await axios.get('https://api.ipify.org?format=json');
-//     return response.data.ip;
-//   } catch (error) {
-//     console.error('Error fetching public IP:', error);
-//     return null;
-//   }
-// }
 
 export const getPublicIP = authorization => {
   try {
@@ -527,19 +515,6 @@ export const getPublicIP = authorization => {
   }
 };
 
-// async function getCityByIP(ip) {
-//   try {
-//     // Get the address from ipapi.co
-//     const api_key_ipinfo = "bc48a998282274";
-//     const url = `https://ipapi.co/${ip}/json/?key=${api_key_ipinfo}`;
-//     const response = await axios.get(url);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching location info:', error);
-//     return null;
-//   }
-// }
-
 export const getCityByIP = ip => {
   try {
     // Get the address from ipapi.co
@@ -552,33 +527,6 @@ export const getCityByIP = ip => {
     return null;
   }
 };
-
-// export const fetchLocationInfo = async () => {
-//   const ip = await getPublicIP();
-//   const result = {
-//     "city": "",
-//     "region": "",
-//     "country_name": ""
-//   };
-//   if (!ip) {
-//     console.log('Unable to get public IP address.');
-//     return result;
-//   }
-//   console.log(`Public IP address: ${ip}`);
-
-//   const locationInfo = await getCityByIP(ip);
-//   if (locationInfo) {
-//     console.log(`Location: ${locationInfo.city}, ${locationInfo.region}, ${locationInfo.country_name}`);
-//     return {
-//       "city": locationInfo.city,
-//       "region": locationInfo.region,
-//       "country_name": locationInfo.country_name
-//     };
-//   } else {
-//     console.log('Unable to get location information.');
-//   }
-//   return result;
-// };
 
 export const fetchLocationInfo = () => {
   const ip = getPublicIP();
@@ -624,12 +572,6 @@ export const searchWeather = (city) => weatherLock((resolve, reject) => {
         console.log(`temperature: ${response.data.main.temp}°C`);
         console.log(`description: ${response.data.weather[0].description}`);
         console.log(`wind speed: ${response.data.wind.speed}m/s`);
-        // const result = {
-        //   "city": city,
-        //   "temp": response.data.main.temp,
-        //   "description": response.data.weather[0].description,
-        //   "wind_speed": response.data.wind.speed,
-        // }
         result['temp'] = response.data.main.temp;
         result['description'] = response.data.weather[0].description;
         result['wind_speed'] = response.data.wind.speed;
